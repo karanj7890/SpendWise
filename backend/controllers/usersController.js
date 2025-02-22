@@ -93,7 +93,13 @@ export const login= async (req,res)=>{
 export const logout= (req,res)=>{
     // in this we only clear the cookies that are present
     try {
-        res.cookie("jwt", "",{maxAge:0})
+        res.cookie("jwt", "", {
+            httpOnly: true, 
+            secure: process.env.NODE_ENV === "production", 
+            sameSite: "None", 
+            expires: new Date(0), 
+            path: "/" 
+        });
         res.status(200).json({message:"Logged Out Succesfully"})
     } catch (error) {
         console.log("Error in logout", error.message);
