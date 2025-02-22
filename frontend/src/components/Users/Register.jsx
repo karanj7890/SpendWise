@@ -29,9 +29,10 @@ export const SignupForm = () => {
       toast.error("Passwords do not match");
       return;
     }
-    
-    const success = await signup(formData);
 
+    const success = await signup(formData);
+    console.log(success);
+    
     if(success){
       setTimeout(() => {
         console.log("Redirecting to dashboard...");
@@ -160,7 +161,7 @@ export const SignupForm = () => {
         <button
           type="button"
           className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-          onClick={() => setShowConfirmPassword(!showPassword)}
+          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
         >
           {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
         </button>
