@@ -1,0 +1,3 @@
+.pink_purple_gradient {
+  @apply bg-gradient-to-r from-pink-400 via-fuchsia-500 to-purple-600 bg-clip-text text-transparent;
+}
