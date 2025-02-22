@@ -30,7 +30,14 @@ export const SignupForm = () => {
       return;
     }
     setPasswordError("");
-    signup(formData);
+    const success = await signup(formData);
+
+    if(success){
+      setTimeout(() => {
+        console.log("Redirecting to dashboard...");
+        navigate("/dashboard");
+      }, 1000);
+    }
   };
 
   const {password} = formData;
