@@ -17,7 +17,7 @@ connectDB()
 
 app.use(
   cors({
-    origin: ["http://localhost:5174"],
+    origin: ["https://spend-wise-six.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
