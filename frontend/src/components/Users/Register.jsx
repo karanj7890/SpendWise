@@ -21,15 +21,15 @@ export const SignupForm = () => {
   const navigate = useNavigate();
   const { signup, isSignningUp } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword,setShowConfirmPassword]= useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      setPasswordError("Passwords do not match");
       toast.error("Passwords do not match");
       return;
     }
-    setPasswordError("");
+    
     const success = await signup(formData);
 
     if(success){
@@ -149,7 +149,7 @@ export const SignupForm = () => {
           </div>
         
         <input
-          type={showPassword ? "text" : "password"}
+          type={showConfirmPassword ? "text" : "password"}
           id="confirmPassword"
           value={formData.confirmPassword}
           onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
@@ -160,9 +160,9 @@ export const SignupForm = () => {
         <button
           type="button"
           className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-          onClick={() => setShowPassword(!showPassword)}
+          onClick={() => setShowConfirmPassword(!showPassword)}
         >
-          {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+          {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
         </button>
       
       </div>
