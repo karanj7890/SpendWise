@@ -17,6 +17,7 @@ import Dashboard from "./components/Users/Dashboard";
 import UserProfile from "./components/Users/UpdateProfile";
 import { OTPVerificationForm } from "./components/Otp/OtpVerificationForm";
 import { NewPasswordForm } from "./components/NewPassword/NewPasswordForm";
+import { useThemeStore } from "./store/useThemeStore"; 
 
 const AuthLayout = ({ children }) => (
   <div className="flex min-h-screen w-full">
@@ -47,10 +48,11 @@ const AuthLayout = ({ children }) => (
 function App() {
 
   const {authUser,isCheckingAuth,checkAuth}= useAuthStore();
+  const { initializeTheme } = useThemeStore(); 
 
   useEffect( ()=>{
     checkAuth()
-  },[checkAuth])
+  },[checkAuth,initializeTheme])
 
   console.log({authUser});
   
