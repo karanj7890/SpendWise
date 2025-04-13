@@ -5,7 +5,8 @@ import { Link, useLocation } from "react-router-dom";
 import { IoLogOutOutline } from "react-icons/io5";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { useAuthStore } from "../../store/useAuthStore";
-
+import { useThemeStore } from "../../store/useThemeStore";
+import { FiSun, FiMoon } from "react-icons/fi";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -16,6 +17,8 @@ function classNames(...classes) {
 export default function PrivateNavbar() {
   const location = useLocation();
     const {logout}= useAuthStore();
+    const {theme,toggleTheme}= useThemeStore();
+
     const handleLogout = ()=>{
         logout();
     }
@@ -78,6 +81,12 @@ export default function PrivateNavbar() {
                 </div>
               </div>
               <div className="flex items-center">
+              <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 mr-2"
+                >
+                  {theme === 'dark' ? <FiSun className="h-5 w-5" /> : <FiMoon className="h-5 w-5" />}
+                </button>
                 <div className="flex-shrink-0">
                   <button
                     onClick={handleLogout}
@@ -88,13 +97,6 @@ export default function PrivateNavbar() {
                     <span>Logout</span>
                   </button>
 
-                  {/* <Link
-                  to="/"
-                  className="relative m-2 inline-flex items-center gap-x-1.5 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 cursor-pointer"
-                  >
-                    <IoLogOutOutline className="h-5 w-5" aria-hidden="true" />
-                    LogOut
-                  </Link> */}
                 </div>
                 <div className="hidden md:ml-1 md:flex md:flex-shrink-0 md:items-center">
                   {/* Profile dropdown */}
@@ -193,8 +195,14 @@ export default function PrivateNavbar() {
               </Link>
             </div>
             {/* Profile links */}
-            <div className="border-t border-gray-200 pb-3 pt-4">
+            <div className="border-t border-gray-200 dark:border-gray-700 pb-3 pt-4">
               <div className="mt-3 space-y-1">
+              <button
+                  onClick={toggleTheme}
+                  className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white sm:px-6"
+                >
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                </button>
                   <DisclosureButton
                     as="button"
                     onClick={handleLogout}
