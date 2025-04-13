@@ -1,10 +1,11 @@
 import { Fragment, useEffect } from "react";
 import { Disclosure, DisclosureButton, Menu, Transition,DisclosurePanel, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, BellIcon, XMarkIcon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
 import { IoLogOutOutline } from "react-icons/io5";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { useAuthStore } from "../../store/useAuthStore";
+import useThemeStore from "../../store/useThemeStore";
 
 
 function classNames(...classes) {
@@ -15,12 +16,13 @@ function classNames(...classes) {
 
 export default function PrivateNavbar() {
   const location = useLocation();
-    const {logout}= useAuthStore();
-    const handleLogout = ()=>{
-        logout();
-    }
+  const {logout}= useAuthStore();
+  const { isDarkMode, toggleTheme } = useThemeStore();
+  const handleLogout = ()=>{
+      logout();
+  }
   return (
-    <Disclosure as="nav" className="bg-white ">
+    <Disclosure as="nav" className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -47,42 +49,53 @@ export default function PrivateNavbar() {
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
                   <Link
                     to="/add-transaction"
-                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  ${location.pathname === '/add-transaction' ?'border-b-2 border-indigo-500 text-gray-900' :'border-transapernt text-gray-600'}`}
+                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-500 hover:text-gray-700'} hover:border-gray-300 ${location.pathname === '/add-transaction' ?'border-b-2 border-indigo-500 text-gray-900' :'border-transapernt'}`}
                   >
                     Add Transaction
                   </Link>
                   <Link
                     to="/add-category"
-                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  ${location.pathname === '/add-category' ?'border-b-2 border-indigo-500 text-gray-900' :'border-transapernt text-gray-600'}`}
+                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-500 hover:text-gray-700'} hover:border-gray-300 ${location.pathname === '/add-category' ?'border-b-2 border-indigo-500' :'border-transparent'}`}
                   >
                     Add Category
                   </Link>
                   <Link
                     to="/categories"
-                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  ${location.pathname === '/categories' ?'border-b-2 border-indigo-500 text-gray-900' :'border-transapernt text-gray-600'}`}
+                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-500 hover:text-gray-700'} hover:border-gray-300 ${location.pathname === '/categories' ?'border-b-2 border-indigo-500' :'border-transparent'}`}
                   >
                     Categories
                   </Link>
                   <Link
                     to="/profile"
-                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  ${location.pathname === '/profile' ?'border-b-2 border-indigo-500 text-gray-900' :'border-transapernt text-gray-600'}`}
+                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-500 hover:text-gray-700'} hover:border-gray-300 ${location.pathname === '/profile' ?'border-b-2 border-indigo-500' :'border-transparent'}`}
                   >
                     Profile
                   </Link>
                   <Link
                     to="/dashboard"
-                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  ${location.pathname === '/dashboard' ?'border-b-2 border-indigo-500 text-gray-900' :'border-transapernt text-gray-600'}`}
+                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-500 hover:text-gray-700'} hover:border-gray-300 ${location.pathname === '/dashboard' ?'border-b-2 border-indigo-500' :'border-transparent'}`}
                   >
                     Dashboard
                   </Link>
                 </div>
               </div>
               <div className="flex items-center">
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 flex items-center gap-2">
+                  <button
+                    onClick={toggleTheme}
+                    type="button"
+                    className={`relative inline-flex items-center gap-x-1.5 rounded-md p-2 text-sm font-medium ${isDarkMode ? 'text-yellow-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'} focus:outline-none`}
+                  >
+                    {isDarkMode ? (
+                      <SunIcon className="h-5 w-5" />
+                    ) : (
+                      <MoonIcon className="h-5 w-5" />
+                    )}
+                  </button>
                   <button
                     onClick={handleLogout}
                     type="button"
-                    className="relative m-2 inline-flex items-center gap-x-1.5 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 cursor-pointer"
+                    className="relative inline-flex items-center gap-x-1.5 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 cursor-pointer"
                   >
                     <IoLogOutOutline className="h-5 w-5" aria-hidden="true" />
                     <span>Logout</span>
@@ -100,7 +113,7 @@ export default function PrivateNavbar() {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-1">
                     <div>
-                      <MenuButton className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                  <MenuButton className={`relative flex rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-white'} text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}>
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
                       </MenuButton>
@@ -114,14 +127,14 @@ export default function PrivateNavbar() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <MenuItems className={`absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'} py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}>
                         <MenuItem>
                           {({ active }) => (
                             <Link
                               to="/student-dashboard"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
+                                `block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`
                               )}
                             >
                               My Dashboard
@@ -134,7 +147,7 @@ export default function PrivateNavbar() {
                               // onClick={logoutHandler}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
+                                `block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`
                               )}
                             >
                               Sign out
@@ -152,44 +165,44 @@ export default function PrivateNavbar() {
           <DisclosurePanel className="md:hidden">
             <div className="space-y-1 pb-3 pt-2">
               <Link to="/add-transaction">
-                <DisclosureButton
-                  as="button"
-                  className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6"
+                  <DisclosureButton
+                    as="button"
+                    className={`block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium ${isDarkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'} sm:pl-5 sm:pr-6`}
                 >
                   Add Transaction
                 </DisclosureButton>
               </Link>
               <Link to="/add-category">
-                <DisclosureButton
-                  as="button"
-                  className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6"
+                  <DisclosureButton
+                    as="button"
+                    className={`block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium ${isDarkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'} sm:pl-5 sm:pr-6`}
                 >
                   Add Category
                 </DisclosureButton>
               </Link>
               <Link to="/categories">
-                <DisclosureButton
-                  as="button"
-                  className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6"
-                >
-                  Categories
-                </DisclosureButton>
+                  <DisclosureButton
+                    as="button"
+                    className={`block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium ${isDarkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'} sm:pl-5 sm:pr-6`}
+                  >
+                    Categories
+                  </DisclosureButton>
               </Link>
               <Link to="/profile">
-                <DisclosureButton
-                  as="button"
-                  className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6"
-                >
-                  Profile
-                </DisclosureButton>
+                  <DisclosureButton
+                    as="button"
+                    className={`block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium ${isDarkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'} sm:pl-5 sm:pr-6`}
+                  >
+                    Profile
+                  </DisclosureButton>
               </Link>
               <Link to="/dashboard">
-                <DisclosureButton
-                  as="button"
-                  className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6"
-                >
-                  My Dashboard
-                </DisclosureButton>
+                  <DisclosureButton
+                    as="button"
+                    className={`block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium ${isDarkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'} sm:pl-5 sm:pr-6`}
+                  >
+                    My Dashboard
+                  </DisclosureButton>
               </Link>
             </div>
             {/* Profile links */}
@@ -198,7 +211,7 @@ export default function PrivateNavbar() {
                   <DisclosureButton
                     as="button"
                     onClick={handleLogout}
-                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"
+                    className={`block px-4 py-2 text-base font-medium ${isDarkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-800'} sm:px-6`}
                   >
                     Sign out
                   </DisclosureButton>
